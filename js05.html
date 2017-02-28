@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		.inline{
+			display: inline-block;
+			margin: 100px 5px  auto 5px;
+			width: 30px;
+			background: brown;
+			text-align: center;
+			line-height: 30px;
+			
+		}
+		
+	</style>
+	<body>
+		<input id="text" type="text"  />
+		<input id="leftin" type="button" value="左侧入"/>
+		<input id="rightin" type="button" value="右侧入"/>
+		<input id="leftout" type="button" value="左侧出"/>
+		<input id="rightout" type="button" value="右侧出"/>
+		<input id="re" type="button" value="冒泡排序"/>
+		<div id="bottom"></div>
+	</body>
+	<script type="text/javascript">
+		var arr=[];
+		var content="";
+		var bot=document.getElementById("bottom");
+		var text=document.getElementById("text");
+		var timer=null;
+		document.getElementById("leftin").addEventListener("click",unshiftN,false);
+		document.getElementById("rightin").addEventListener("click",pushN,false);
+		document.getElementById("leftout").addEventListener("click",shiftN,false);
+		document.getElementById("rightout").addEventListener("click",popN,false);
+		document.getElementById("re").addEventListener("click",resort,false);
+		function unshiftN(){
+			limit();
+			arr.unshift(text.value);
+			arrChange();
+		}
+		function pushN(){
+			limit();
+			arr.push(text.value);
+			arrChange();
+		}
+		function shiftN(){
+			arr.shift(text.value);
+			arrChange();
+		}
+		function popN(){
+			arr.pop(text.value);
+			arrChange();
+		}
+		function resort(){
+		clearInterval(timer);
+        var i=0,j=0,len=arr.length;
+        timer=setInterval(function(){
+            if (i<len-1) {
+                if (j==len-1-i) {
+                    j=0;
+                    i++;
+                }
+                if (arr[j]>arr[j+1]) {
+                    var x=0;
+                    x=arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=x;
+                }
+                j++;
+            }                   
+            arrChange();
+            if (i==arr.length-1) {
+                clearInterval(timer);
+            }
+        },50);
+		}
+		function arrChange(){
+			for(var i=0;i<arr.length;i++){
+				content+="<div class='inline' style='height:"+arr[i]+"px'>"+arr[i]+"</div>";
+			}
+			bot.innerHTML=content;
+			content="";
+		}
+		function limit(){
+			var txt=text.value.trim();
+			if(txt>100||txt<10){
+				alert("你输入的值大于100或小于10");
+				text.value="";
+				var inline=document.getElementsByClassName("inline");
+				this.delete(inline);
+			}
+			if(arr.length>60){
+				alert("队列的元素已经超过60个！");
+				text.value="";
+			}
+		}
+		
+	</script>
+</html>
